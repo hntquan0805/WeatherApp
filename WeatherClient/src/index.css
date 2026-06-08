@@ -1,0 +1,999 @@
+@import "tailwindcss";
+
+/* ============================================================
+   INDEX.CSS  –  WeatherApp BEM styles
+   Palette    : primary #4f6ef7 | border #d0d5e8 | bg #f5f7ff
+   Font       : 'Inter', sans-serif (đã load trong index.html / _app)
+   Radius     : --radius-md: 10px  |  --radius-lg: 12px  |  --radius-xl: 16px
+   ============================================================ */
+
+/* ── CSS custom properties ─────────────────────────────────── */
+:root {
+  --color-primary:       #4f6ef7;
+  --color-primary-dark:  #3a5ae0;
+  --color-primary-light: #7b93f8;
+  --color-primary-bg:    #eef0fc;
+  --color-primary-soft:  #f5f7ff;
+
+  --color-border:        #d0d5e8;
+  --color-border-light:  #e5e7eb;
+
+  --color-text-main:     #111827;
+  --color-text-muted:    #6b7280;
+  --color-text-faint:    #9ca3af;
+
+  --color-success-bg:    #f0fdf4;
+  --color-success-text:  #15803d;
+  --color-success-border:#bbf7d0;
+
+  --color-error-bg:      #fef2f2;
+  --color-error-text:    #dc2626;
+  --color-error-border:  #fecaca;
+
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-2xl: 20px;
+
+  --shadow-sm: 0 1px 3px rgba(79,110,247,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 16px rgba(79,110,247,.10), 0 1px 4px rgba(0,0,0,.06);
+  --shadow-lg: 0 8px 32px rgba(79,110,247,.14), 0 2px 8px rgba(0,0,0,.08);
+
+  --font-base: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar {
+  background: rgba(184, 223, 245, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: none;
+  padding: 0 24px;
+  height: 57px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-base);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar__inner {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #111827;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  transition: opacity .15s;
+}
+.navbar__logo:hover { opacity: .75; }
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar__profile-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #111827;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: color .15s;
+}
+.navbar__profile-link:hover { color: var(--color-primary); }
+
+.navbar__avatar {
+  width: 30px;
+  height: 30px;
+  background: rgba(255,255,255,.55);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.navbar__username {
+  font-size: 13.5px;
+}
+
+/* ── Underline-slide animation (từ hình tham khảo) ── */
+.navbar__logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--font-base);
+
+  background-image: linear-gradient(transparent 90%, #111827 90%, #111827 100%);
+  background-repeat: no-repeat;
+  background-position-y: 100%;
+  background-size: 0% 16px;
+  transition:
+    background-size 0.5s cubic-bezier(0.79, 0.01, 0.22, 0.99) 0s,
+    background-position 0s step-end 0.5s;
+}
+.navbar__logout-btn:hover {
+  background-position: 100% 100%;
+  background-size: 100% 16px;
+  cursor: pointer;
+}
+
+.navbar__login-link {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  text-decoration: none;
+
+  background-image: linear-gradient(transparent 90%, #111827 90%, #111827 100%);
+  background-repeat: no-repeat;
+  background-position-y: 100%;
+  background-size: 0% 16px;
+  transition:
+    background-size 0.5s cubic-bezier(0.79, 0.01, 0.22, 0.99) 0s,
+    background-position 0s step-end 0.5s;
+}
+.navbar__login-link:hover {
+  background-position: 100% 100%;
+  background-size: 100% 16px;
+  color: #111827;
+}
+
+.navbar__register-btn {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  text-decoration: none;
+
+  background-image: linear-gradient(transparent 90%, #111827 90%, #111827 100%);
+  background-repeat: no-repeat;
+  background-position-y: 100%;
+  background-size: 0% 16px;
+  transition:
+    background-size 0.5s cubic-bezier(0.79, 0.01, 0.22, 0.99) 0s,
+    background-position 0s step-end 0.5s;
+}
+.navbar__register-btn:hover {
+  background-position: 100% 100%;
+  background-size: 100% 16px;
+}
+
+/* ============================================================
+   LOADING SPINNER
+   ============================================================ */
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--color-primary-soft);
+}
+
+.loading-spinner__ring {
+  width: 40px;
+  height: 40px;
+  border: 3.5px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   REGISTER PAGE
+   ============================================================ */
+.register-page {
+  min-height: calc(100vh - 57px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-soft);
+  padding: 32px 16px;
+  font-family: var(--font-base);
+}
+
+.register-page__card {
+  width: 100%;
+  max-width: 860px;
+  background: #fff;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  overflow: hidden;
+}
+
+/* Left: form panel */
+.register-page__form-panel {
+  flex: 1;
+  padding: 40px 40px 36px;
+  min-width: 0;
+}
+
+/* Right: gif panel */
+.register-page__gif-panel {
+  display: none;
+  width: 46%;
+  flex-shrink: 0;
+  background: #eef0fc;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .register-page__gif-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.register-page__gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Brand */
+.register-page__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.register-page__brand-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  letter-spacing: -0.02em;
+}
+
+.register-page__title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.register-page__subtitle {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0 0 24px;
+}
+
+/* Error banner */
+.register-page__error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  background: var(--color-error-bg);
+  border: 1.5px solid var(--color-error-border);
+  color: var(--color-error-text);
+}
+
+/* Form */
+.register-page__form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Floating-label input */
+.register-page__float-input {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.register-page__float-label {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  padding: 0 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: #fff;
+  z-index: 1;
+  letter-spacing: 0.01em;
+}
+
+.register-page__input {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-family: var(--font-base);
+  color: var(--color-text-main);
+  background: #fff;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  box-sizing: border-box;
+}
+.register-page__input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79,110,247,.10);
+}
+
+.register-page__input-right-slot {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.register-page__eye-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-text-faint);
+  display: flex;
+  transition: color .15s;
+}
+.register-page__eye-btn:hover { color: var(--color-text-muted); }
+
+/* Password rules */
+.register-page__rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: -10px;
+  margin-bottom: 16px;
+}
+
+.register-page__rule {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  color: var(--color-text-faint);
+  transition: color .15s;
+}
+.register-page__rule--ok { color: #16a34a; }
+
+.register-page__confirm-hint {
+  font-size: 11.5px;
+  color: #ef4444;
+  margin: -14px 0 10px 2px;
+}
+
+/* Submit button */
+.register-page__submit-btn {
+  width: 100%;
+  height: 48px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-base);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background .15s, opacity .15s;
+  margin-top: 4px;
+}
+.register-page__submit-btn:hover:not(:disabled) { background: var(--color-primary-dark); }
+.register-page__submit-btn:disabled {
+  background: var(--color-primary-light);
+  cursor: not-allowed;
+}
+
+.register-page__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+/* Footer */
+.register-page__footer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 20px;
+}
+.register-page__footer-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+.register-page__footer-link:hover { text-decoration: underline; }
+
+/* ============================================================
+   WEATHER PAGE
+   ============================================================ */
+.weather-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 24px;
+  font-family: var(--font-base);
+}
+
+/* Header */
+.weather-page__header { margin-bottom: 20px; }
+
+.weather-page__title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+}
+.weather-page__subtitle {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ── Tabs ── */
+.weather-page__tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 4px;
+  border-bottom: 1.5px solid var(--color-border-light);
+  margin-bottom: 20px;
+}
+
+.weather-page__tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: var(--font-base);
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1.5px;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+  white-space: nowrap;
+}
+.weather-page__tab:hover { color: var(--color-primary); }
+.weather-page__tab--active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.weather-page__tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 50px;
+}
+.weather-page__tab--active .weather-page__tab-badge {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* ── Search bar ── */
+.weather-page__search-wrap {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.weather-page__search-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.weather-page__input-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Clickable search icon button (left side of input) */
+.weather-page__search-icon-btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 44px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-faint);
+  z-index: 2;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  transition: color .15s, background .15s;
+}
+.weather-page__search-icon-btn:hover:not(:disabled) {
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+.weather-page__search-icon-btn:disabled {
+  cursor: default;
+  opacity: .5;
+}
+
+.weather-page__input {
+  width: 100%;
+  height: 48px;
+  padding: 0 44px 0 44px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-family: var(--font-base);
+  color: var(--color-text-main);
+  background: #fff;
+  outline: none;
+  box-shadow: var(--shadow-sm);
+  transition: border-color .15s, box-shadow .15s;
+  box-sizing: border-box;
+}
+.weather-page__input::placeholder { color: var(--color-text-faint); }
+.weather-page__input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79,110,247,.10);
+}
+
+/* °F toggle (next to search input) */
+.weather-page__unit-toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.weather-page__unit-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  font-family: var(--font-base);
+  user-select: none;
+}
+
+.weather-page__unit-toggle {
+  position: relative;
+  width: 34px;
+  height: 19px;
+  background: var(--color-border);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  padding: 0;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.weather-page__unit-toggle--on { background: var(--color-primary); }
+
+.weather-page__unit-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,.18);
+  transition: transform .2s cubic-bezier(.4,0,.2,1);
+  display: block;
+}
+.weather-page__unit-toggle--on .weather-page__unit-toggle-thumb {
+  transform: translateX(15px);
+}
+
+.weather-page__clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-text-faint);
+  display: flex;
+  z-index: 2;
+  transition: color .15s;
+}
+.weather-page__clear-btn:hover { color: var(--color-text-muted); }
+
+/* Suggestions dropdown */
+.weather-page__suggest {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1.5px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  z-index: 20;
+  overflow: hidden;
+}
+
+.weather-page__suggest-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 13.5px;
+  font-family: var(--font-base);
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background .12s, color .12s;
+}
+.weather-page__suggest-item:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.weather-page__suggest-pin { color: var(--color-text-faint); flex-shrink: 0; }
+
+/* Tab content areas */
+.weather-page__result { }
+
+.weather-page__history-tab-content {
+  max-width: 680px;
+}
+
+/* State indicators */
+.weather-page__state-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 0;
+  color: var(--color-text-faint);
+}
+
+.weather-page__state-spinner { color: var(--color-primary); }
+
+.weather-page__state-text {
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.weather-page__state-center--empty .weather-page__state-empty-icon {
+  opacity: .25;
+}
+
+/* Error */
+.weather-page__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--color-error-bg);
+  border: 1.5px solid var(--color-error-border);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+}
+.weather-page__error-icon { color: #ef4444; flex-shrink: 0; margin-top: 2px; }
+.weather-page__error-title { font-size: 13.5px; font-weight: 600; color: #b91c1c; }
+.weather-page__error-msg   { font-size: 13px; color: #ef4444; margin-top: 2px; }
+
+/* History card */
+.weather-page__history-card {
+  background: #fff;
+  border: 1.5px solid var(--color-border-light);
+  border-radius: var(--radius-xl);
+  padding: 16px;
+}
+
+.weather-page__login-prompt {
+  background: var(--color-primary-bg);
+  border: 1.5px solid #c8d0f5;
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  text-align: center;
+}
+.weather-page__login-prompt-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+.weather-page__login-prompt-sub {
+  font-size: 12px;
+  color: #7b93f8;
+}
+
+/* ============================================================
+   PROFILE PAGE
+   ============================================================ */
+.profile-page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 36px 24px;
+  font-family: var(--font-base);
+  min-height: calc(100vh - 57px);
+}
+
+.profile-page__title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+}
+
+/* Info card */
+.profile-page__info-card {
+  background: #fff;
+  border: 1.5px solid var(--color-border-light);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-page__avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.profile-page__avatar {
+  width: 52px;
+  height: 52px;
+  background: var(--color-primary-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.profile-page__avatar-initial {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.profile-page__avatar-meta { flex: 1; min-width: 0; }
+.profile-page__avatar-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+.profile-page__avatar-email {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  margin-top: 1px;
+}
+
+.profile-page__role-badge {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 50px;
+  flex-shrink: 0;
+}
+.profile-page__role-badge--admin { background: #f3e8ff; color: #7c3aed; }
+.profile-page__role-badge--user  { background: var(--color-primary-bg); color: var(--color-primary); }
+
+/* Stats grid */
+.profile-page__stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.profile-page__stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+}
+.profile-page__stat-icon  { color: var(--color-text-faint); flex-shrink: 0; }
+.profile-page__stat-label { font-size: 11px; color: var(--color-text-faint); }
+.profile-page__stat-value { font-size: 13px; font-weight: 600; color: var(--color-text-main); margin-top: 1px; }
+
+/* Form card */
+.profile-page__form-card {
+  background: #fff;
+  border: 1.5px solid var(--color-border-light);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-page__form-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin: 0 0 20px;
+}
+
+/* Message */
+.profile-page__message {
+  font-size: 13px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  border: 1.5px solid transparent;
+}
+.profile-page__message--success {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+  border-color: var(--color-success-border);
+}
+.profile-page__message--error {
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
+  border-color: var(--color-error-border);
+}
+
+/* Floating-label input */
+.profile-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-page__float-input {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.profile-page__float-label {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  padding: 0 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: #fff;
+  z-index: 1;
+}
+
+.profile-page__input-left-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-faint);
+  display: flex;
+}
+
+.profile-page__input {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-family: var(--font-base);
+  color: var(--color-text-main);
+  background: #fff;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  box-sizing: border-box;
+}
+.profile-page__input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79,110,247,.10);
+}
+
+/* Password section */
+.profile-page__pw-section {
+  border-top: 1.5px solid var(--color-border-light);
+  padding-top: 16px;
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-page__pw-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--color-text-faint);
+  margin-bottom: 14px;
+}
+
+/* Submit button */
+.profile-page__submit-btn {
+  width: 100%;
+  height: 48px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-base);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  transition: background .15s;
+}
+.profile-page__submit-btn:hover:not(:disabled) { background: var(--color-primary-dark); }
+.profile-page__submit-btn:disabled {
+  background: var(--color-primary-light);
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   LOGIN PAGE – RIGHT PANEL SLIDESHOW
+   ============================================================ */
+.login-slideshow {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.login-slideshow__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 0.9s ease-in-out;
+}
+
+.login-slideshow__img--active {
+  opacity: 1;
+}
