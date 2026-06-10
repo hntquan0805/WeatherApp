@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { LogOut, CloudLightning } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { logout } from "../../store/slices/authSlice";
 
@@ -17,9 +17,14 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar__inner">
 
-        {/* Logo */}
+        {/* Logo – thay CloudLightning bằng ảnh từ public */}
         <Link to="/weather" className="navbar__logo">
-          <CloudLightning size={20} />
+          {/* Điền tên file logo của bạn vào src, ví dụ: "/logo.png" */}
+          <img
+            src="/logo.png"
+            alt="WeatherApp logo"
+            className="navbar__logo-img"
+          />
           WeatherApp
         </Link>
 
@@ -27,9 +32,11 @@ export default function Navbar() {
         {isAuthenticated ? (
           <div className="navbar__actions">
             <Link to="/profile" className="navbar__profile-link">
+              {/* [Task 4] Avatar với viền đen mỏng */}
               <div className="navbar__avatar">
                 {user?.username[0].toUpperCase()}
               </div>
+              {/* [Task 4] Username với underline-slide animation */}
               <span className="navbar__username">{user?.username}</span>
             </Link>
             <button onClick={handleLogout} className="navbar__logout-btn">

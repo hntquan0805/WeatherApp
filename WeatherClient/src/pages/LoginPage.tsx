@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CloudLightning, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { loginThunk, clearError } from "../store/slices/authSlice";
 
@@ -98,137 +98,152 @@ export default function LoginPage() {
   };
 
   return (
-    <div
-      className="min-h-[calc(100vh-57px)] flex items-center justify-center px-4 py-8"
-      style={{ background: "#f5f7ff" }}
-    >
-      <div
-        className="w-full max-w-3xl flex rounded-2xl overflow-hidden shadow-lg"
-        style={{ background: "white" }}
-      >
-        {/* ── Left: Form ── */}
-        <div className="flex-1 flex flex-col justify-center px-10 py-12">
+    <>
+      {/* Animated bubble background */}
+      <div className="auth-bubble-bg">
+        <div className="auth-bubble auth-bubble-1" />
+        <div className="auth-bubble auth-bubble-2" />
+        <div className="auth-bubble auth-bubble-3" />
+        <div className="auth-bubble auth-bubble-4" />
+        <div className="auth-bubble auth-bubble-5" />
+        <div className="auth-bubble auth-bubble-6" />
+        <div className="auth-bubble auth-bubble-7" />
+      </div>
 
-          {/* Brand */}
-          <div className="flex items-center gap-2 mb-9">
-            <CloudLightning size={22} color="#4f6ef7" />
-            <span
-              className="text-[17px] font-bold"
+      <div className="auth-page-wrap">
+        <div
+          className="w-full max-w-3xl flex rounded-2xl overflow-hidden shadow-lg"
+          style={{ background: "white" }}
+        >
+          {/* ── Left: Form ── */}
+          <div className="flex-1 flex flex-col justify-center px-10 py-12">
+
+            {/* Brand */}
+            <div className="flex items-center gap-2 mb-9">
+              {/* Điền tên file logo của bạn vào src, ví dụ: "/logo.png" */}
+              <img
+                src="/logo.png"
+                alt="WeatherApp logo"
+                style={{ width: 22, height: 22, objectFit: "contain" }}
+              />
+              <span
+                className="text-[17px] font-bold"
+                style={{ color: "#111827", fontFamily: "'Inter', sans-serif" }}
+              >
+                WeatherApp
+              </span>
+            </div>
+
+            <h1
+              className="text-[28px] font-extrabold mb-1.5"
               style={{ color: "#111827", fontFamily: "'Inter', sans-serif" }}
             >
-              WeatherApp
-            </span>
+              Welcome Back!
+            </h1>
+            <p
+              className="text-sm mb-7"
+              style={{ color: "#6b7280", fontFamily: "'Inter', sans-serif" }}
+            >
+              Please enter your login details below
+            </p>
+
+            {/* Error */}
+            {error && (
+              <div
+                className="flex items-center gap-2 text-sm px-4 py-3 rounded-lg mb-5 border"
+                style={{ background: "#fef2f2", borderColor: "#fecaca", color: "#dc2626" }}
+              >
+                <AlertCircle size={15} className="shrink-0" />
+                {error}
+              </div>
+            )}
+
+            {/* Form */}
+            <form onSubmit={handleSubmit}>
+              <FloatInput
+                label="Email"
+                type="email"
+                value={email}
+                onChange={setEmail}
+                placeholder="Enter the email"
+                required
+              />
+
+              <FloatInput
+                label="Password"
+                type={showPass ? "text" : "password"}
+                value={password}
+                onChange={setPassword}
+                placeholder="Enter the password"
+                required
+                rightSlot={
+                  <button
+                    type="button"
+                    onClick={() => setShowPass(!showPass)}
+                    style={{ color: "#9ca3af", background: "none", border: "none", padding: 0, cursor: "pointer", display: "flex" }}
+                  >
+                    {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                }
+              />
+
+              {/* Sign in */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full h-12 text-sm font-semibold flex items-center justify-center gap-2 transition-colors mb-5"
+                style={{
+                  background: isLoading ? "#7b93f8" : "#4f6ef7",
+                  color: "white",
+                  borderRadius: "10px",
+                  border: "none",
+                  cursor: isLoading ? "not-allowed" : "pointer",
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: "15px",
+                }}
+                onMouseEnter={(e) => { if (!isLoading) e.currentTarget.style.background = "#3a5ae0"; }}
+                onMouseLeave={(e) => { if (!isLoading) e.currentTarget.style.background = "#4f6ef7"; }}
+              >
+                {isLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Signing in...
+                  </>
+                ) : "Sign in"}
+              </button>
+
+              {/* Footer */}
+              <p className="text-center text-sm" style={{ color: "#6b7280" }}>
+                Don't have an account?{" "}
+                <Link
+                  to="/register"
+                  className="font-semibold hover:underline"
+                  style={{ color: "#4f6ef7" }}
+                >
+                  Sign Up
+                </Link>
+              </p>
+            </form>
           </div>
 
-          <h1
-            className="text-[28px] font-extrabold mb-1.5"
-            style={{ color: "#111827", fontFamily: "'Inter', sans-serif" }}
+          {/* ── Right: Slideshow panel ── */}
+          <div
+            className="hidden md:flex w-[46%] overflow-hidden"
+            style={{ background: "#eef0fc" }}
           >
-            Welcome Back!
-          </h1>
-          <p
-            className="text-sm mb-7"
-            style={{ color: "#6b7280", fontFamily: "'Inter', sans-serif" }}
-          >
-            Please enter your login details below
-          </p>
-
-          {/* Error */}
-          {error && (
-            <div
-              className="flex items-center gap-2 text-sm px-4 py-3 rounded-lg mb-5 border"
-              style={{ background: "#fef2f2", borderColor: "#fecaca", color: "#dc2626" }}
-            >
-              <AlertCircle size={15} className="shrink-0" />
-              {error}
+            <div className="login-slideshow">
+              {SLIDE_IMAGES.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={`Slide ${i + 1}`}
+                  className={`login-slideshow__img${i === slideIdx ? " login-slideshow__img--active" : ""}`}
+                />
+              ))}
             </div>
-          )}
-
-          {/* Form */}
-          <form onSubmit={handleSubmit}>
-            <FloatInput
-              label="Email"
-              type="email"
-              value={email}
-              onChange={setEmail}
-              placeholder="Enter the email"
-              required
-            />
-
-            <FloatInput
-              label="Password"
-              type={showPass ? "text" : "password"}
-              value={password}
-              onChange={setPassword}
-              placeholder="Enter the password"
-              required
-              rightSlot={
-                <button
-                  type="button"
-                  onClick={() => setShowPass(!showPass)}
-                  style={{ color: "#9ca3af", background: "none", border: "none", padding: 0, cursor: "pointer", display: "flex" }}
-                >
-                  {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              }
-            />
-
-            {/* Sign in */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full h-12 text-sm font-semibold flex items-center justify-center gap-2 transition-colors mb-5"
-              style={{
-                background: isLoading ? "#7b93f8" : "#4f6ef7",
-                color: "white",
-                borderRadius: "10px",
-                border: "none",
-                cursor: isLoading ? "not-allowed" : "pointer",
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "15px",
-              }}
-              onMouseEnter={(e) => { if (!isLoading) e.currentTarget.style.background = "#3a5ae0"; }}
-              onMouseLeave={(e) => { if (!isLoading) e.currentTarget.style.background = "#4f6ef7"; }}
-            >
-              {isLoading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Signing in...
-                </>
-              ) : "Sign in"}
-            </button>
-
-            {/* Footer */}
-            <p className="text-center text-sm" style={{ color: "#6b7280" }}>
-              Don't have an account?{" "}
-              <Link
-                to="/register"
-                className="font-semibold hover:underline"
-                style={{ color: "#4f6ef7" }}
-              >
-                Sign Up
-              </Link>
-            </p>
-          </form>
-        </div>
-
-        {/* ── Right: Slideshow panel ── */}
-        <div
-          className="hidden md:flex w-[46%] overflow-hidden"
-          style={{ background: "#eef0fc" }}
-        >
-          <div className="login-slideshow">
-            {SLIDE_IMAGES.map((src, i) => (
-              <img
-                key={src}
-                src={src}
-                alt={`Slide ${i + 1}`}
-                className={`login-slideshow__img${i === slideIdx ? " login-slideshow__img--active" : ""}`}
-              />
-            ))}
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -16,7 +16,7 @@ function formatDate(dateStr: string) {
   });
 }
 
-export default function HistoryList({ history, onSelect, onClear }: Props) {
+export default function HistoryList({ history, onClear }: Omit<Props, "onSelect"> & { onSelect?: (city: string) => void }) {
   if (history.length === 0) {
     return (
       <div className="text-center py-10 text-gray-400">
@@ -28,7 +28,7 @@ export default function HistoryList({ history, onSelect, onClear }: Props) {
 
   return (
     <div>
-      {/* Header — ngoài khối, không có card wrapper */}
+      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-gray-700">
           Lịch sử tìm kiếm
@@ -46,11 +46,9 @@ export default function HistoryList({ history, onSelect, onClear }: Props) {
       {/* Grid 3 cards / hàng */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {history.map((log) => (
-          <button
+          <div
             key={log.id}
-            onClick={() => onSelect(log.city)}
-            className="flex flex-col rounded-2xl p-4 text-left group transition-all
-                       hover:shadow-md hover:brightness-95"
+            className="flex flex-col rounded-2xl p-4"
             style={{ background: "rgba(184, 223, 245, 0.72)" }}
           >
             {/* Top: icon + temp */}
@@ -85,7 +83,7 @@ export default function HistoryList({ history, onSelect, onClear }: Props) {
             <p className="text-xs text-gray-400 mt-2 pt-2 border-t border-white/40">
               {formatDate(log.searchedAt)}
             </p>
-          </button>
+          </div>
         ))}
       </div>
     </div>

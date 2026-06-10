@@ -105,152 +105,165 @@ export default function RegisterPage() {
     form.confirmPassword.length > 0 && form.confirmPassword !== form.password;
 
   return (
-    <div className="register-page">
-      <div className="register-page__card">
+    <>
+      {/* Animated bubble background */}
+      <div className="auth-bubble-bg">
+        <div className="auth-bubble auth-bubble-1" />
+        <div className="auth-bubble auth-bubble-2" />
+        <div className="auth-bubble auth-bubble-3" />
+        <div className="auth-bubble auth-bubble-4" />
+        <div className="auth-bubble auth-bubble-5" />
+        <div className="auth-bubble auth-bubble-6" />
+        <div className="auth-bubble auth-bubble-7" />
+      </div>
 
-        {/* ── Left: Form ── */}
-        <div className="register-page__form-panel">
+      <div className="register-page" style={{ background: "transparent" }}>
+        <div className="register-page__card">
 
-          {/* Brand */}
-          <div className="register-page__brand">
-            <CloudLightning size={20} color="#4f6ef7" />
-            <span className="register-page__brand-name">WeatherApp</span>
-          </div>
+          {/* ── Left: Form ── */}
+          <div className="register-page__form-panel">
 
-          <h1 className="register-page__title">Create account</h1>
-          <p className="register-page__subtitle">Free, no credit card required</p>
-
-          {/* Error */}
-          {displayError && (
-            <div className="register-page__error">
-              <AlertCircle size={15} className="shrink-0" />
-              {displayError}
+            {/* Brand */}
+            <div className="register-page__brand">
+              <CloudLightning size={20} color="#4f6ef7" />
+              <span className="register-page__brand-name">WeatherApp</span>
             </div>
-          )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="register-page__form">
+            <h1 className="register-page__title">Create account</h1>
+            <p className="register-page__subtitle">Free, no credit card required</p>
 
-            {/* Username */}
-            <FloatInput
-              label="Username"
-              name="username"
-              value={form.username}
-              onChange={handleChange}
-              placeholder="Display name"
-              required
-              minLength={3}
-              rightSlot={<User size={15} color="#9ca3af" />}
-            />
-
-            {/* Email */}
-            <FloatInput
-              label="Email"
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="example@email.com"
-              required
-              rightSlot={<Mail size={15} color="#9ca3af" />}
-            />
-
-            {/* Password */}
-            <FloatInput
-              label="Password"
-              type={showPass ? "text" : "password"}
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="••••••••"
-              required
-              rightSlot={
-                <button
-                  type="button"
-                  onClick={() => setShowPass(!showPass)}
-                  className="register-page__eye-btn"
-                >
-                  {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              }
-            />
-
-            {/* Password rules */}
-            {form.password && (
-              <div className="register-page__rules">
-                {passwordRules.map((rule) => {
-                  const ok = rule.test(form.password);
-                  return (
-                    <div
-                      key={rule.label}
-                      className={`register-page__rule ${ok ? "register-page__rule--ok" : ""}`}
-                    >
-                      <Check size={12} />
-                      {rule.label}
-                    </div>
-                  );
-                })}
+            {/* Error */}
+            {displayError && (
+              <div className="register-page__error">
+                <AlertCircle size={15} className="shrink-0" />
+                {displayError}
               </div>
             )}
 
-            {/* Confirm Password */}
-            <FloatInput
-              label="Confirm Password"
-              type={showConfirmPass ? "text" : "password"}
-              name="confirmPassword"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              placeholder="••••••••"
-              required
-              hasError={confirmMismatch}
-              rightSlot={
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPass(!showConfirmPass)}
-                  className="register-page__eye-btn"
-                >
-                  {showConfirmPass ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              }
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="register-page__form">
+
+              {/* Username */}
+              <FloatInput
+                label="Username"
+                name="username"
+                value={form.username}
+                onChange={handleChange}
+                placeholder="Display name"
+                required
+                minLength={3}
+                rightSlot={<User size={15} color="#9ca3af" />}
+              />
+
+              {/* Email */}
+              <FloatInput
+                label="Email"
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="example@email.com"
+                required
+                rightSlot={<Mail size={15} color="#9ca3af" />}
+              />
+
+              {/* Password */}
+              <FloatInput
+                label="Password"
+                type={showPass ? "text" : "password"}
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                required
+                rightSlot={
+                  <button
+                    type="button"
+                    onClick={() => setShowPass(!showPass)}
+                    className="register-page__eye-btn"
+                  >
+                    {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                }
+              />
+
+              {/* Password rules */}
+              {form.password && (
+                <div className="register-page__rules">
+                  {passwordRules.map((rule) => {
+                    const ok = rule.test(form.password);
+                    return (
+                      <div
+                        key={rule.label}
+                        className={`register-page__rule ${ok ? "register-page__rule--ok" : ""}`}
+                      >
+                        <Check size={12} />
+                        {rule.label}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Confirm Password */}
+              <FloatInput
+                label="Confirm Password"
+                type={showConfirmPass ? "text" : "password"}
+                name="confirmPassword"
+                value={form.confirmPassword}
+                onChange={handleChange}
+                placeholder="••••••••"
+                required
+                hasError={confirmMismatch}
+                rightSlot={
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPass(!showConfirmPass)}
+                    className="register-page__eye-btn"
+                  >
+                    {showConfirmPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                }
+              />
+              {confirmMismatch && (
+                <p className="register-page__confirm-hint">Passwords do not match</p>
+              )}
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="register-page__submit-btn"
+              >
+                {isLoading ? (
+                  <>
+                    <div className="register-page__spinner" />
+                    Creating account...
+                  </>
+                ) : "Create account"}
+              </button>
+            </form>
+
+            {/* Footer */}
+            <p className="register-page__footer">
+              Already have an account?{" "}
+              <Link to="/login" className="register-page__footer-link">
+                Sign in
+              </Link>
+            </p>
+          </div>
+
+          {/* ── Right: GIF panel ── */}
+          <div className="register-page__gif-panel">
+            <img
+              src="/register-bg.gif"
+              alt="WeatherApp animation"
+              className="register-page__gif"
             />
-            {confirmMismatch && (
-              <p className="register-page__confirm-hint">Passwords do not match</p>
-            )}
+          </div>
 
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="register-page__submit-btn"
-            >
-              {isLoading ? (
-                <>
-                  <div className="register-page__spinner" />
-                  Creating account...
-                </>
-              ) : "Create account"}
-            </button>
-          </form>
-
-          {/* Footer */}
-          <p className="register-page__footer">
-            Already have an account?{" "}
-            <Link to="/login" className="register-page__footer-link">
-              Sign in
-            </Link>
-          </p>
         </div>
-
-        {/* ── Right: GIF panel ── */}
-        <div className="register-page__gif-panel">
-          <img
-            src="/register-bg.gif"
-            alt="WeatherApp animation"
-            className="register-page__gif"
-          />
-        </div>
-
       </div>
-    </div>
+    </>
   );
 }
