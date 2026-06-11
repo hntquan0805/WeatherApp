@@ -192,7 +192,7 @@ export default function ProfilePage() {
 
         <div className="profile-two-col">
 
-          {/* ── LEFT: Avatar + Stats bên dưới ── */}
+          {/* ── LEFT: Avatar + Stats ── */}
           <div>
             {/* Avatar block */}
             <div style={{
@@ -213,7 +213,7 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Stats: hàng dọc */}
+            {/* Stats */}
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {stats.map(({ icon, label, value }, i) => {
                 const c = STAT_COLORS[i];

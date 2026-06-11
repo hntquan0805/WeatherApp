@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5032/api", // đổi port theo project của bạn
+  baseURL: "http://localhost:5032/api",
   headers: { "Content-Type": "application/json" },
   timeout: 10000,
 });

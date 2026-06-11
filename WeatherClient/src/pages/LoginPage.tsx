@@ -120,7 +120,6 @@ export default function LoginPage() {
 
             {/* Brand */}
             <div className="flex items-center gap-2 mb-9">
-              {/* Điền tên file logo của bạn vào src, ví dụ: "/logo.png" */}
               <img
                 src="/logo.png"
                 alt="WeatherApp logo"

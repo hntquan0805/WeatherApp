@@ -61,7 +61,7 @@ export default function WeatherPage() {
     setActiveTab("weather");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSearch(query);
   };
@@ -197,7 +197,7 @@ export default function WeatherPage() {
             </div>
           )}
 
-          {current && !isLoading && <WeatherCard weather={current} units={units} />}
+          {current && !isLoading && <WeatherCard weather={current} />}
 
           {!current && !isLoading && !error && (
             <div className="weather-page__state-center weather-page__state-center--empty">

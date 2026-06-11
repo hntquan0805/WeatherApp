@@ -16,10 +16,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar__inner">
-
-        {/* Logo – thay CloudLightning bằng ảnh từ public */}
         <Link to="/weather" className="navbar__logo">
-          {/* Điền tên file logo của bạn vào src, ví dụ: "/logo.png" */}
           <img
             src="/logo.png"
             alt="WeatherApp logo"
@@ -32,11 +29,9 @@ export default function Navbar() {
         {isAuthenticated ? (
           <div className="navbar__actions">
             <Link to="/profile" className="navbar__profile-link">
-              {/* [Task 4] Avatar với viền đen mỏng */}
               <div className="navbar__avatar">
                 {user?.username[0].toUpperCase()}
               </div>
-              {/* [Task 4] Username với underline-slide animation */}
               <span className="navbar__username">{user?.username}</span>
             </Link>
             <button onClick={handleLogout} className="navbar__logout-btn">
