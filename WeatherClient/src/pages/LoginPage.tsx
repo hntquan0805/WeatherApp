@@ -163,7 +163,10 @@ export default function LoginPage() {
                 label="Email"
                 type="email"
                 value={email}
-                onChange={setEmail}
+                onChange={(value) => {
+                  setEmail(value);
+                  if (error) dispatch(clearError());
+                }}
                 placeholder="Enter the email"
                 required
               />
@@ -172,7 +175,10 @@ export default function LoginPage() {
                 label="Password"
                 type={showPass ? "text" : "password"}
                 value={password}
-                onChange={setPassword}
+                onChange={(value) => {
+                  setPassword(value);
+                  if (error) dispatch(clearError());
+                }}
                 placeholder="Enter the password"
                 required
                 rightSlot={
