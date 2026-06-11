@@ -22,7 +22,10 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const requestUrl = error.config?.url ?? "";
+    const isAuthRequest = requestUrl.includes("/auth/login") || requestUrl.includes("/auth/register");
+
+    if (error.response?.status === 401 && !isAuthRequest) {
       // Token hết hạn → clear storage và redirect login
       localStorage.removeItem("token");
       localStorage.removeItem("user");

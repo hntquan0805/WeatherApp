@@ -92,7 +92,7 @@ export default function LoginPage() {
     return () => { dispatch(clearError()); };
   }, [dispatch]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(loginThunk({ email, password }));
   };
