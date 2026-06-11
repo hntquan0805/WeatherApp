@@ -31,6 +31,14 @@ axiosInstance.interceptors.response.use(
       localStorage.removeItem("user");
       window.location.href = "/login";
     }
+
+    // Xử lý rate limit
+    if (error.response?.status === 429) {
+      const retryAfter = error.response.headers["retry-after"];
+      const seconds    = retryAfter ? parseInt(retryAfter) : 60;
+      error.message    = `Quá nhiều yêu cầu. Vui lòng thử lại sau ${seconds} giây.`;
+    }
+    
     return Promise.reject(error);
   }
 );

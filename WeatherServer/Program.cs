@@ -10,6 +10,8 @@ using WeatherApp.API.Services;
 using WeatherApp.API.Services.Interfaces;
 using WeatherApp.Models;
 using WeatherApp.API.Middleware;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 DotNetEnv.Env.Load();
 
@@ -17,6 +19,69 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Expand %VAR% → giá trị thực từ Environment
 ExpandEnvVars(builder.Configuration);
+
+
+// ── Rate Limiting ─────────────────────────────────────
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = 429; // Too Many Requests
+
+    // ── Policy 1: Auth endpoints (login/register) ─────
+    // Chống brute-force: 5 request / 1 phút / IP
+    options.AddPolicy("auth", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit      = 5,
+                Window           = TimeSpan.FromMinutes(1),
+                QueueLimit       = 0, // không queue, reject thẳng
+            }));
+
+    // ── Policy 2: Weather search ──────────────────────
+    // 30 request / 1 phút / IP (đã login hay chưa)
+    options.AddPolicy("weather", httpContext =>
+        RateLimitPartition.GetSlidingWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new SlidingWindowRateLimiterOptions
+            {
+                PermitLimit          = 30,
+                Window               = TimeSpan.FromMinutes(1),
+                SegmentsPerWindow    = 6,  // chia nhỏ thành 10s/segment
+                QueueLimit           = 0,
+            }));
+
+    // ── Policy 3: Global fallback ─────────────────────
+    // 100 request / 1 phút / IP cho mọi endpoint còn lại
+    options.AddPolicy("global", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 100,
+                Window      = TimeSpan.FromMinutes(1),
+                QueueLimit  = 0,
+            }));
+
+    // Callback khi bị reject — log để monitor
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        context.HttpContext.Response.StatusCode = 429;
+
+        // Trả về thời gian còn phải chờ nếu có
+        if (context.Lease.TryGetMetadata(
+            MetadataName.RetryAfter, out var retryAfter))
+        {
+            context.HttpContext.Response.Headers.RetryAfter =
+                ((int)retryAfter.TotalSeconds).ToString();
+        }
+
+        context.HttpContext.Response.ContentType = "application/json";
+        await context.HttpContext.Response.WriteAsync(
+            """{"success":false,"message":"Quá nhiều yêu cầu. Vui lòng thử lại sau.","data":null,"errors":[]}""",
+            cancellationToken);
+    };
+});
 
 // ── Database ──────────────────────────────────────────
 builder.Services.AddDbContext<WeatherContext>(options =>
@@ -114,6 +179,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowReactApp");
+app.UseRateLimiter();
 app.UseAuthentication(); // phải trước UseAuthorization
 app.UseAuthorization();
 app.MapControllers();

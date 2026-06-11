@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using WeatherApp.API.DTOs;
 using WeatherApp.API.Services;
 using WeatherApp.API.Services.Interfaces;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace WeatherApp.API.Controllers;
 
 [Authorize]
+[EnableRateLimiting("weather")]
 public class WeatherController : BaseController
 {
     private readonly IWeatherService _weatherService;

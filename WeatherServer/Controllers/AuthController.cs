@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WeatherApp.API.DTOs;
 using WeatherApp.API.Services;
 using WeatherApp.API.Services.Interfaces;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace WeatherApp.API.Controllers;
 
@@ -20,6 +21,7 @@ public class AuthController : BaseController
     // POST api/auth/register
     [HttpPost("register")]
     [AllowAnonymous]
+    [EnableRateLimiting("auth")]
     [ProducesResponseType(typeof(ApiResponseDto<AuthResponseDto>), 200)]
     [ProducesResponseType(typeof(ApiResponseDto<object>), 400)]
     public async Task<IActionResult> Register([FromBody] RegisterDto dto)
@@ -46,6 +48,7 @@ public class AuthController : BaseController
     // POST api/auth/login
     [HttpPost("login")]
     [AllowAnonymous]
+    [EnableRateLimiting("auth")]
     [ProducesResponseType(typeof(ApiResponseDto<AuthResponseDto>), 200)]
     [ProducesResponseType(typeof(ApiResponseDto<object>), 401)]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
